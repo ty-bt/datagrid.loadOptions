@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../jquery-easyui-1.5.2/themes/bootstrap/easyui.css" rel="stylesheet">
+    <script src="../jquery-easyui-1.5.2/jquery.min.js"></script>
+    <script src="../jquery-easyui-1.5.2/jquery.easyui.min.js"></script>
+    <script src="../datagrid.loadOptions.js"></script>
+</head>
+<body>
+    <h2>不重新请求数据,修改options</h2>
+    <div style="padding: 5px 0;">
+        <a class="easyui-linkbutton" onclick="changeFitColumns()">changeFitColumns</a>
+        <a class="easyui-linkbutton" onclick="changeStriped()">changeStriped</a>
+        <a class="easyui-linkbutton" onclick="changeRownumbers()">changeRownumbers</a>
+    </div>
+    <table id="dg"></table>
+</body>
+<script type="text/javascript">
+    $("#dg").datagrid({
+        height: 400,
+        width: 800,
+        url: "demo.json",
+        onLoadSuccess: function(data){
+            // 从加载到的数据中加载列头
+            $("#dg").datagrid("loadOptions", {columns: data.columns});
+        }
+    });
+
+    function changeFitColumns(){
+        var options = $("#dg").datagrid("options");
+        var oldColumns = options._oldColumns || options.columns;
+        var cloneColumns = [[]];
+        $(options.columns[0]).each(function(){
+            cloneColumns[0].push($.extend({}, this));
+        });
+        options._oldColumns = cloneColumns;
+        $("#dg").datagrid("loadOptions", {
+            fitColumns: !$("#dg").datagrid("options").fitColumns,
+            columns: oldColumns
+        });
+    }
+
+
+    function changeStriped(){
+        $("#dg").datagrid("loadOptions", {
+            striped: !$("#dg").datagrid("options").striped
+        });
+    }
+
+    function changeRownumbers(){
+        $("#dg").datagrid("loadOptions", {
+            rownumbers: !$("#dg").datagrid("options").rownumbers
+        });
+    }
+</script>
+</html>
