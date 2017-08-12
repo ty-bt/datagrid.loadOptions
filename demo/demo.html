@@ -22,6 +22,7 @@
         height: 400,
         width: 800,
         url: "demo.json",
+        method: "GET",
         onLoadSuccess: function(data){
             // 从加载到的数据中加载列头
             $("#dg").datagrid("loadOptions", {columns: data.columns});
